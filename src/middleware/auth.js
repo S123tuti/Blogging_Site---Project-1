@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken')
-const blogModel = require('../models/blogModel')
+const blogModel = require('../models/blogmodel')
 const mongoose = require('mongoose')
 
 const authentication = function (req, res, next) {
@@ -22,6 +22,7 @@ const authentication = function (req, res, next) {
     catch (error) {
         return res.status(500).send({ status: false, Error: error.message })
     }
+
 }
 
 
@@ -31,7 +32,7 @@ const authorisation = async function (req, res, next) {
         let blogToBeModified = req.params.blogId
         //========================= if blogId is not valid ================================================
         if (!mongoose.isValidObjectId(blogToBeModified)) {
-            return res.status(404).send({ status: false, msg: "invalid blogId format" });
+            return res.status(400).send({ status: false, msg: "invalid blogId format" });
         }
         //================================= to check authority ===========================================
         let blog = await blogModel.findById({ _id: blogToBeModified })
@@ -59,7 +60,7 @@ const authorisationQuery = async function (req, res, next) {
         let dataQuery = req.query
         if (dataQuery.authorId) {
             if (!mongoose.Types.ObjectId.isValid(dataQuery.authorId)) {
-                return res.status(404).send({ status: false, msg: "invalid authorId format" });
+                return res.status(400).send({ status: false, msg: "invalid authorId format" });
             }
         }
         //=============== if entry in query params ===============================================

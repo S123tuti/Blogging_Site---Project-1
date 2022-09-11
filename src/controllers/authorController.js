@@ -1,4 +1,4 @@
-const authorModel = require('../models/authorModel')
+const authorModel = require('../models/authormodel')
 const jwt = require('jsonwebtoken')
 
 
@@ -110,7 +110,6 @@ const authorLogin = async function (req, res) {
         //=============================== token generation =====================================================
         let payload = { _id: user._id, Group: "Group35", projectName: "BloggingSite" }
         let token = jwt.sign(payload, "Blogging_site_group_35");
-        res.setHeader("x-api-key", token);
         return res.status(201).send({ status: true, token: token });
     }
     catch (error) {
